@@ -1,8 +1,6 @@
 # FastInflector
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fast_inflector`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Notes are forthcoming. Nothing to see here (yet), move along.
 
 ## Installation
 
@@ -32,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/fast_inflector.
+Bug reports and pull requests are welcome on GitHub at https://github.com/phoffer/fast_inflector.
 
 
 ## License
