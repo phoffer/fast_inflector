@@ -1,0 +1,27 @@
+
+# ruby
+
+/.bundle/
+.rspec
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+
+# crystal
+
+/doc/
+ext/*/libs/
+/.crystal/
+ext/*/.shards/
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+/shard.lock
+

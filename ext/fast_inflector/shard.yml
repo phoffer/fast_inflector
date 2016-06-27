@@ -1,0 +1,22 @@
+name: fast_inflector
+version: 0.1.0
+
+authors:
+  - Paul Hoffer <paulrhoffer@gmail.com>
+
+description: |
+  ActiveSupport::Inflector via native extension in Crystal
+
+dependencies:
+  inflector:
+    github: phoffer/inflector.cr
+    version: "~> 0.1.3"
+  crystalized_ruby:
+    github: phoffer/crystalized_ruby
+    version: "0.1.0"
+
+# development_dependencies:
+#   webmock:
+#     github: manastech/webmock
+
+license: MIT
