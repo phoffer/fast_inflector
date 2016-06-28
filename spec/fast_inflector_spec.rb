@@ -11,7 +11,6 @@ require 'spec_helper'
 # end
 
 # require "./spec_helper"
-require 'active_support'
 require "inflector_test_cases"
 include InflectorTestCases
 
@@ -115,25 +114,27 @@ describe "Inflector" do
 
   describe "mixture to title case" do
     MixtureToTitleCase.each do |before, titleized|
-      it "test_titleize_mixture_to_title_case_" do
-        (ActiveSupport::Inflector.titleize(before)).should eq(titleized)
+      it "titleize '#{before}' => '#{titleized}'" do
+        (ActiveSupport::Inflector.titleize(before.to_s)).should eq(titleized.to_s)
       end
     end
   end
 
   describe "camelize" do
-    CamelToUnderscore.each do |camel, underscore|
-      (ActiveSupport::Inflector.camelize(underscore)).should eq(camel)
+    it 'works' do
+      CamelToUnderscore.each do |camel, underscore|
+        (ActiveSupport::Inflector.camelize(underscore)).should eq(camel)
+      end
+    end
+    it "camelize_with_lower_downcases_the_first_letter" do
+      (ActiveSupport::Inflector.camelize("Capital", false)).should eq("capital")
+    end
+
+    it "camelize_with_underscores" do
+      (ActiveSupport::Inflector.camelize("Camel_Case")).should     eq("CamelCase")
     end
   end
 
-  describe "camelize_with_lower_downcases_the_first_letter" do
-    (ActiveSupport::Inflector.camelize("Capital", false)).should eq("capital")
-  end
-
-  describe "camelize_with_underscores" do
-    (ActiveSupport::Inflector.camelize("Camel_Case")).should     eq("CamelCase")
-  end
 
   describe "acronyms" do
     it "works" do
@@ -355,7 +356,7 @@ describe "Inflector" do
   describe "ordinal" do
     OrdinalNumbers.each do |number, ordinalized|
       it "gets ordinal for #{number} => #{ordinalized}" do
-        (number + Inflector.ordinal(number)).should eq(ordinalized)
+        (number + ActiveSupport::Inflector.ordinal(number)).should eq(ordinalized)
       end
     end
   end
@@ -369,7 +370,7 @@ describe "Inflector" do
   end
 
   describe "#dasherize" do
-    it "dasherizes correctly" do
+    describe "dasherizes correctly" do
       UnderscoresToDashes.each do |underscored, dasherized|
         it "dasherizes #{underscored} => #{dasherized}" do
           (ActiveSupport::Inflector.dasherize(underscored)).should eq(dasherized)
@@ -377,7 +378,7 @@ describe "Inflector" do
       end
     end
 
-    it "underscore_as_reverse_of_dasherize" do
+    describe "underscore_as_reverse_of_dasherize" do
       UnderscoresToDashes.each_key do |underscored|
         it "dasherizes and underscores back to original #{underscored}" do
           (ActiveSupport::Inflector.underscore(ActiveSupport::Inflector.dasherize(underscored))).should eq(underscored)
@@ -411,15 +412,15 @@ describe "Inflector" do
         inflect.irregular("el", "los")
       end
 
-      ("hijos").should eq("hijo".pluralize(:es))
-      ("luces").should eq("luz".pluralize(:es))
-      ("luzs").should  eq("luz".pluralize)
+      ("hijos").should eq(ActiveSupport::Inflector.pluralize("hijo", :es))
+      ("luces").should eq(ActiveSupport::Inflector.pluralize("luz", :es))
+      ("luzs").should  eq(ActiveSupport::Inflector.pluralize("luz"))
 
-      ("sociedad").should  eq("sociedades".singularize(:es))
-      ("sociedade").should eq("sociedades".singularize)
+      ("sociedad").should  eq(ActiveSupport::Inflector.singularize("sociedades", :es))
+      ("sociedade").should eq(ActiveSupport::Inflector.singularize("sociedades"))
 
-      ("los").should eq("el".pluralize(:es))
-      ("els").should eq("el".pluralize)
+      ("los").should eq(ActiveSupport::Inflector.pluralize("el", :es))
+      ("els").should eq(ActiveSupport::Inflector.pluralize("el"))
 
       ActiveSupport::Inflector.inflections(:es) { |inflect| inflect.clear }
 
@@ -537,10 +538,10 @@ describe "Inflector" do
 
 
   describe "inflections_with_uncountable_words" do
-    ActiveSupport::Inflector.inflections do |inflect|
-      inflect.uncountable "HTTP"
-    end
     it "should not count HTTP" do
+      ActiveSupport::Inflector.inflections do |inflect|
+        inflect.uncountable "HTTP"
+      end
       (ActiveSupport::Inflector.pluralize("HTTP")).should eq("HTTP")
     end
   end

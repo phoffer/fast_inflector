@@ -207,7 +207,7 @@ module ActiveSupport
     #   ordinal(-11)   # => "th"
     #   ordinal(-1021) # => "st"
     def ordinal(number)
-      Geode::Inflector.ordinal(number)
+      Geode::Inflector.ordinal(number.to_i)
     end
 
     # Turns a number into an ordinal string used to denote the position in an
@@ -220,7 +220,7 @@ module ActiveSupport
     #   ordinalize(-11)   # => "-11th"
     #   ordinalize(-1021) # => "-1021st"
     def ordinalize(number)
-      Geode::Inflector.ordinalize(number)
+      Geode::Inflector.ordinalize(number.to_i)
     end
 
   end
