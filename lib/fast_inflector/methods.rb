@@ -25,7 +25,7 @@ module ActiveSupport
     #   pluralize('CamelOctopus')     # => "CamelOctopi"
     #   pluralize('ley', :es)         # => "leyes"
     def pluralize(word, locale = :en)
-      Geode::Inflector.pluralize(word, locale)
+      Geode::FastInflector.pluralize(word, locale)
     end
 
     # The reverse of #pluralize, returns the singular form of a word in a
@@ -42,7 +42,7 @@ module ActiveSupport
     #   singularize('CamelOctopi')      # => "CamelOctopus"
     #   singularize('leyes', :es)       # => "ley"
     def singularize(word, locale = :en)
-      Geode::Inflector.singularize(word, locale)
+      Geode::FastInflector.singularize(word, locale)
     end
 
     # Converts strings to UpperCamelCase.
@@ -62,7 +62,7 @@ module ActiveSupport
     #
     #   camelize(underscore('SSLError'))        # => "SslError"
     def camelize(term, uppercase_first_letter = true)
-      Geode::Inflector.camelize(term, uppercase_first_letter)
+      Geode::FastInflector.camelize(term, uppercase_first_letter)
     end
 
     # Makes an underscored, lowercase form from the expression in the string.
@@ -77,7 +77,7 @@ module ActiveSupport
     #
     #   camelize(underscore('SSLError'))  # => "SslError"
     def underscore(camel_cased_word)
-      Geode::Inflector.underscore(camel_cased_word)
+      Geode::FastInflector.underscore(camel_cased_word)
     end
 
     # Tweaks an attribute name for display to end users.
@@ -104,7 +104,7 @@ module ActiveSupport
     #   humanize('ssl_error') # => "SSL error"
     #
     def humanize(lower_case_and_underscored_word, options = {})
-      Geode::Inflector.humanize(lower_case_and_underscored_word, options.fetch(:capitalize, true))
+      Geode::FastInflector.humanize(lower_case_and_underscored_word, options.fetch(:capitalize, true))
     end
 
     # Converts just the first character to uppercase.
@@ -113,7 +113,7 @@ module ActiveSupport
     #   upcase_first('w')                 # => "W"
     #   upcase_first('')                  # => ""
     def upcase_first(string)
-      Geode::Inflector.upcase_first(string)
+      Geode::FastInflector.upcase_first(string)
     end
 
     # Capitalizes all the words and replaces some characters in the string to
@@ -127,7 +127,7 @@ module ActiveSupport
     #   titleize('TheManWithoutAPast')       # => "The Man Without A Past"
     #   titleize('raiders_of_the_lost_ark')  # => "Raiders Of The Lost Ark"
     def titleize(word)
-      Geode::Inflector.titleize(word)
+      Geode::FastInflector.titleize(word)
     end
 
     # Creates the name of a table like Rails does for models to table names.
@@ -137,7 +137,7 @@ module ActiveSupport
     #   tableize('ham_and_egg')     # => "ham_and_eggs"
     #   tableize('fancyCategory')   # => "fancy_categories"
     def tableize(class_name)
-      Geode::Inflector.tableize(class_name)
+      Geode::FastInflector.tableize(class_name)
     end
 
     # Creates a class name from a plural table name like Rails does for table
@@ -151,14 +151,14 @@ module ActiveSupport
     #
     #   classify('calculus')     # => "Calculus"
     def classify(table_name)
-      Geode::Inflector.classify(table_name.to_s)
+      Geode::FastInflector.classify(table_name.to_s)
     end
 
     # Replaces underscores with dashes in the string.
     #
     #   dasherize('puni_puni') # => "puni-puni"
     def dasherize(underscored_word)
-      Geode::Inflector.dasherize(underscored_word)
+      Geode::FastInflector.dasherize(underscored_word)
     end
 
     # Removes the module part from the expression in the string.
@@ -170,7 +170,7 @@ module ActiveSupport
     #
     # See also #deconstantize.
     def demodulize(path)
-      Geode::Inflector.demodulize(path)
+      Geode::FastInflector.demodulize(path)
     end
 
     # Removes the rightmost segment from the constant expression in the string.
@@ -183,7 +183,7 @@ module ActiveSupport
     #
     # See also #demodulize.
     def deconstantize(path)
-      Geode::Inflector.deconstantize(path)
+      Geode::FastInflector.deconstantize(path)
     end
 
     # Creates a foreign key name from a class name.
@@ -194,7 +194,7 @@ module ActiveSupport
     #   foreign_key('Message', false) # => "messageid"
     #   foreign_key('Admin::Post')    # => "post_id"
     def foreign_key(class_name, separate_class_name_and_id_with_underscore = true)
-      Geode::Inflector.foreign_key(class_name, separate_class_name_and_id_with_underscore)
+      Geode::FastInflector.foreign_key(class_name, separate_class_name_and_id_with_underscore)
     end
 
     # Returns the suffix that should be added to a number to denote the position
@@ -207,7 +207,7 @@ module ActiveSupport
     #   ordinal(-11)   # => "th"
     #   ordinal(-1021) # => "st"
     def ordinal(number)
-      Geode::Inflector.ordinal(number.to_i)
+      Geode::FastInflector.ordinal(number.to_i)
     end
 
     # Turns a number into an ordinal string used to denote the position in an
@@ -220,7 +220,7 @@ module ActiveSupport
     #   ordinalize(-11)   # => "-11th"
     #   ordinalize(-1021) # => "-1021st"
     def ordinalize(number)
-      Geode::Inflector.ordinalize(number.to_i)
+      Geode::FastInflector.ordinalize(number.to_i)
     end
 
   end

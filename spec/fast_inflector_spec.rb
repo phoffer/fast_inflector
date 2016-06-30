@@ -65,7 +65,7 @@ describe "Inflector" do
       uncountable_word = "ors"
       countable_word = "sponsor"
 
-      ActiveSupport::Inflector.inflections.uncountables << uncountable_word
+      ActiveSupport::Inflector.inflections.uncountable(uncountable_word)
 
       (ActiveSupport::Inflector.singularize(uncountable_word)).should  eq(uncountable_word)
       (ActiveSupport::Inflector.pluralize(uncountable_word)).should    eq(uncountable_word)
@@ -393,8 +393,8 @@ describe "Inflector" do
         (ActiveSupport::Inflector.camelize(underscored, false)).should eq(lower_camel)
       end
     end
-    it "symbol_to_lower_camel" do
-      SymbolToLowerCamel.each do |symbol, lower_camel|
+    SymbolToLowerCamel.each do |symbol, lower_camel|
+      it "symbol_to_lower_camel #{symbol.inspect} => #{lower_camel.inspect}" do
         (ActiveSupport::Inflector.camelize(symbol, false)).should eq(lower_camel)
       end
     end

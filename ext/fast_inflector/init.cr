@@ -6,13 +6,26 @@ fun init = Init_fast_inflector
   LibCrystalMain.__crystal_main(0, Pointer(Pointer(UInt8)).null)
 
   geode = LibRuby.rb_define_module("Geode", LibRuby.rb_cObject)
-  inflector = LibRuby.rb_define_module_under(geode, "Inflector", LibRuby.rb_cObject)
+  inflector = LibRuby.rb_define_module_under(geode, "FastInflector", LibRuby.rb_cObject)
+
+  LibRuby2.rb_define_module_function(inflector, "acronym",      ->Wrapper.acronym,        2)
+  LibRuby3.rb_define_module_function(inflector, "plural",       ->Wrapper.plural,         3)
+  LibRuby3.rb_define_module_function(inflector, "singular",     ->Wrapper.singular,       3)
+  LibRuby3.rb_define_module_function(inflector, "human",        ->Wrapper.human,          3)
+  LibRuby3.rb_define_module_function(inflector, "irregular",    ->Wrapper.irregular,      3)
+  LibRuby2.rb_define_module_function(inflector, "uncountable",  ->Wrapper.uncountable,    2)
+  LibRuby2.rb_define_module_function(inflector, "clear",        ->Wrapper.clear,          2)
+  LibRuby1.rb_define_module_function(inflector, "uncountables", ->Wrapper.uncountables,   1)
+  LibRuby1.rb_define_module_function(inflector, "plurals",      ->Wrapper.plurals,        1)
+  LibRuby1.rb_define_module_function(inflector, "singulars",    ->Wrapper.singulars,      1)
+  LibRuby1.rb_define_module_function(inflector, "humans",       ->Wrapper.humans,         1)
+  LibRuby1.rb_define_module_function(inflector, "acronyms",     ->Wrapper.acronyms,       1)
+
 
   LibRuby2.rb_define_module_function(inflector, "pluralize",     ->Wrapper.pluralize,     2)
   LibRuby2.rb_define_module_function(inflector, "singularize",   ->Wrapper.singularize,   2)
   LibRuby2.rb_define_module_function(inflector, "camelize",      ->Wrapper.camelize,      2)
   LibRuby1.rb_define_module_function(inflector, "titleize",      ->Wrapper.titleize,      1)
-  LibRuby1.rb_define_module_function(inflector, "camelize",      ->Wrapper.camelize,      1)
   LibRuby1.rb_define_module_function(inflector, "underscore",    ->Wrapper.underscore,    1)
   LibRuby1.rb_define_module_function(inflector, "dasherize",     ->Wrapper.dasherize,     1)
   LibRuby1.rb_define_module_function(inflector, "demodulize",    ->Wrapper.demodulize,    1)
