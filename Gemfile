@@ -4,4 +4,4 @@ source 'https://rubygems.org'
 # gemspec
 gem "rake", "~> 10.0"
 gem 'rspec'
-gem 'activesupport', '~> 5.0.0.rc2'
+gem 'activesupport', '~> 4.2.6'
