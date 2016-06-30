@@ -7,6 +7,8 @@ before_install:
   - curl https://dist.crystal-lang.org/apt/setup.sh | sudo bash
   - sudo apt-get -qq update
   - sudo apt-get install -y crystal
+  - rvm get head
+  - gem install bundler
 
 before_script:
   - cd ext/fast_inflector && make
