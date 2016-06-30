@@ -5,6 +5,7 @@ rvm:
   - 2.3
 
 before_install:
+  - curl https://dist.crystal-lang.org/apt/setup.sh | sudo bash
   - sudo apt-get -qq update
   - sudo apt-get install -y crystal
 
