@@ -20,9 +20,25 @@ module ActiveSupport
       def irregular(word, replacement)
         Geode::FastInflector.irregular(@locale, word, replacement)
       end
-      def uncountable(word)
-        Geode::FastInflector.uncountable(@locale, word)
+      # def uncountable(*words)
+      #   words = words.flatten.compact
+      #   if words.empty?
+      #     Geode::FastInflector.uncountables(@locale)
+      #   else
+      #     puts words.inspect
+      #     Geode::FastInflector.uncountable_words(@locale, words.map(&:downcase))
+      #   end
+      # end
+      def uncountable(*words)
+        # puts words.flatten.compact.inspect
+        words.flatten.compact.each do |word|
+          Geode::FastInflector.uncountable(@locale, word)
+        end
+        Geode::FastInflector.uncountables(@locale)
       end
+      # def uncountable(word)
+      #   Geode::FastInflector.uncountable(@locale, word)
+      # end
       def uncountables
         Geode::FastInflector.uncountables(@locale)
       end
