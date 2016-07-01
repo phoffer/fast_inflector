@@ -19,6 +19,7 @@
 ext/*/libs/
 /.crystal/
 ext/*/.shards/
+*/*.bundle
 
 
 # Libraries don't need dependency lock
