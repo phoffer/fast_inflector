@@ -307,8 +307,8 @@ describe "Inflector" do
   end
 
   describe "classify" do
-    it "handles base case" do
-      ClassNameToTableName.each do |class_name, table_name|
+    ClassNameToTableName.each do |class_name, table_name|
+      it "classifies #{class_name.inspect} => #{table_name.inspect}" do
         (ActiveSupport::Inflector.classify(table_name)).should                   eq(class_name)
         (ActiveSupport::Inflector.classify("table_prefix." + table_name)).should eq(class_name)
       end
@@ -389,8 +389,8 @@ describe "Inflector" do
   end
 
   describe "camelize" do
-    it "underscore_to_lower_camel" do
-      UnderscoreToLowerCamel.each do |underscored, lower_camel|
+    UnderscoreToLowerCamel.each do |underscored, lower_camel|
+      it "underscore_to_lower_camel #{underscored.inspect} => #{lower_camel.inspect}" do
         (ActiveSupport::Inflector.camelize(underscored, false)).should eq(lower_camel)
       end
     end
@@ -484,58 +484,61 @@ describe "Inflector" do
     end
   end
 
-  # Irregularities.each do |singular, plural|
-  #   define_method("test_irregularity_between_#{singular}_and_#{plural}") do
-  #     ActiveSupport::Inflector.inflections do |inflect|
-  #       inflect.irregular(singular, plural)
-  # (ActiveSupport::Inflector.singularize(plural)).should eq(singular)
-  # (ActiveSupport::Inflector.pluralize(singular)).should eq(plural)
-  #     end
-  #   end
-  # end
+  describe 'irregularities' do
+    Irregularities.each do |singular, plural|
+      it "test irregularity between #{singular.inspect} => #{plural.inspect}" do
+        ActiveSupport::Inflector.inflections do |inflect|
+          inflect.irregular(singular, plural)
+          (ActiveSupport::Inflector.singularize(plural)).should eq(singular)
+          (ActiveSupport::Inflector.pluralize(singular)).should eq(plural)
+        end
+      end
+    end
+    Irregularities.each do |singular, plural|
+      it "test pluralize of irregularity #{plural.inspect} should be the same" do
+        ActiveSupport::Inflector.inflections do |inflect|
+          inflect.irregular(singular, plural)
+          (ActiveSupport::Inflector.pluralize(plural)).should eq(plural)
+        end
+      end
+    end
+    Irregularities.each do |singular, plural|
+      it "test singularize of irregularity #{singular.inspect} should be the same"  do
+        ActiveSupport::Inflector.inflections do |inflect|
+          inflect.irregular(singular, plural)
+          (ActiveSupport::Inflector.singularize(singular)).should eq(singular)
+        end
+      end
+    end
+  end
 
-  # Irregularities.each do |singular, plural|
-  #   define_method("test_pluralize_of_irregularity_#{plural}_should_be_the_same") do
-  #     ActiveSupport::Inflector.inflections do |inflect|
-  #       inflect.irregular(singular, plural)
-  # (ActiveSupport::Inflector.pluralize(plural)).should eq(plural)
-  #     end
-  #   end
-  # end
+  describe 'clearing inflectors' do
+    
+    [ :all, [] ].each do |scope|
+      ActiveSupport::Inflector.inflections do |inflect|
+        it "test clear inflections with #{scope.kind_of?(Array) ? "no_arguments" : scope}"  do
+          # save all the inflections
+          singulars, plurals, uncountables = inflect.singulars, inflect.plurals, inflect.uncountables
 
-  # Irregularities.each do |singular, plural|
-  #   define_method("test_singularize_of_irregularity_#{singular}_should_be_the_same") do
-  #     ActiveSupport::Inflector.inflections do |inflect|
-  #       inflect.irregular(singular, plural)
-  # (ActiveSupport::Inflector.singularize(singular)).should eq(singular)
-  #     end
-  #   end
-  # end
+          # clear all the inflections
+          inflect.clear(*scope)
 
-  # [ :all, [] ].each do |scope|
-  #   ActiveSupport::Inflector.inflections do |inflect|
-  #     define_method("test_clear_inflections_with_#{scope.kind_of?(Array) ? "no_arguments" : scope}") do
-  #       # save all the inflections
-  #       singulars, plurals, uncountables = inflect.singulars, inflect.plurals, inflect.uncountables
+          (inflect.singulars).should eq([])
+          (inflect.plurals).should eq([])
+          (inflect.uncountables).should eq([])
 
-  #       # clear all the inflections
-  #       inflect.clear(*scope)
+          # restore all the inflections
+          singulars.reverse_each { |singular| inflect.singular(*singular) }
+          plurals.reverse_each   { |plural|   inflect.plural(*plural) }
+          inflect.uncountable(uncountables)
 
-  # (inflect.singulars).should eq([])
-  # (inflect.plurals).should eq([])
-  # (inflect.uncountables).should eq([])
-
-  #       # restore all the inflections
-  #       singulars.reverse_each { |singular| inflect.singular(*singular) }
-  #       plurals.reverse_each   { |plural|   inflect.plural(*plural) }
-  #       inflect.uncountable(uncountables)
-
-  # (inflect.singulars).should eq(singulars)
-  # (inflect.plurals).should eq(plurals)
-  # (inflect.uncountables).should eq(uncountables)
-  #     end
-  #   end
-  # end
+          (inflect.singulars).should eq(singulars)
+          (inflect.plurals).should eq(plurals)
+          (inflect.uncountables).should eq(uncountables)
+        end
+      end
+    end
+  end
 
 
   describe "inflections_with_uncountable_words" do
