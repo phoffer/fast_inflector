@@ -115,14 +115,15 @@ describe "Inflector" do
   describe "mixture to title case" do
     MixtureToTitleCase.each do |before, titleized|
       it "titleize '#{before}' => '#{titleized}'" do
+        (ActiveSupport::Inflector.titleize(before.to_s).encoding).should eq(titleized.to_s.encoding)
         (ActiveSupport::Inflector.titleize(before.to_s)).should eq(titleized.to_s)
       end
     end
   end
 
   describe "camelize" do
-    it 'works' do
-      CamelToUnderscore.each do |camel, underscore|
+    CamelToUnderscore.each do |camel, underscore|
+      it "works for #{camel.inspect} => #{underscore.inspect}" do
         (ActiveSupport::Inflector.camelize(underscore)).should eq(camel)
       end
     end
