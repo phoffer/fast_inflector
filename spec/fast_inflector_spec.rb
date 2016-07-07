@@ -1,16 +1,5 @@
-require 'spec_helper'
+require "spec_helper"
 
-# describe FastInflector do
-#   it 'has a version number' do
-#     expect(FastInflector::VERSION).not_to be nil
-#   end
-
-#   it 'does something useful' do
-#     expect(false).to eq(true)
-#   end
-# end
-
-# require "./spec_helper"
 require "inflector_test_cases"
 include InflectorTestCases
 
@@ -31,7 +20,7 @@ describe "Inflector" do
   # end
 
 
-  describe "pluralize_plurals" do
+  describe "pluralize" do
     it "doesn't re-pluralize plural words" do
       expect(ActiveSupport::Inflector.pluralize("plurals")).to eq("plurals")
       expect(ActiveSupport::Inflector.pluralize("Plurals")).to eq("Plurals")
@@ -40,10 +29,7 @@ describe "Inflector" do
       expect(ActiveSupport::Inflector.pluralize("posts")).to eq("posts")
       expect(ActiveSupport::Inflector.pluralize("Posts")).to eq("Posts")
     end
-  end
-
-  describe "pluralize_empty_string" do
-    it 'works' do
+    it "pluralize empty string" do
       expect(ActiveSupport::Inflector.pluralize("")).to eq("")
     end
   end
@@ -75,34 +61,31 @@ describe "Inflector" do
     end
   end
 
-  describe "singular to plural" do    
+  describe "#pluralize" do
     SingularToPlural.each do |singular, plural|
       it "pluralize '#{singular}' should == '#{plural}'" do
         expect(ActiveSupport::Inflector.pluralize(singular)).to            eq(plural)
         expect(ActiveSupport::Inflector.pluralize(singular.capitalize)).to eq(plural.capitalize)
       end
+      it "pluralizing #{plural} should not change" do
+        expect(ActiveSupport::Inflector.pluralize(plural)).to                eq(plural)
+        expect(ActiveSupport::Inflector.pluralize(plural.capitalize)).to     eq(plural.capitalize)
+      end
     end
+  end
 
+  describe "#singular" do
     SingularToPlural.each do |singular, plural|
       it "singularize '#{plural}' should == '#{singular}'" do
         expect(ActiveSupport::Inflector.singularize(plural)).to            eq(singular)
         expect(ActiveSupport::Inflector.singularize(plural.capitalize)).to eq(singular.capitalize)
       end
+      it "singularizing #{singular} should not change" do
+        expect(ActiveSupport::Inflector.singularize(singular)).to            eq(singular)
+        expect(ActiveSupport::Inflector.singularize(singular.capitalize)).to eq(singular.capitalize)
+      end
     end
   end
-
-  SingularToPlural.each do |singular, plural|
-    it "pluralizing #{plural} should not change" do
-      expect(ActiveSupport::Inflector.pluralize(plural)).to                eq(plural)
-      expect(ActiveSupport::Inflector.pluralize(plural.capitalize)).to     eq(plural.capitalize)
-    end
-
-    it "singularizing #{singular} should not change" do
-      expect(ActiveSupport::Inflector.singularize(singular)).to            eq(singular)
-      expect(ActiveSupport::Inflector.singularize(singular.capitalize)).to eq(singular.capitalize)
-    end
-  end
-
 
   describe "overwrite_previous_inflectors" do
     it "should overwrite inflectors" do
@@ -187,9 +170,6 @@ describe "Inflector" do
         expect(ActiveSupport::Inflector.humanize(under)).to    eq(human)
       end
     end
-  end
-
-  describe "acronyms" do
     it "should camelize acronyms" do
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.acronym("API")
@@ -233,20 +213,30 @@ describe "Inflector" do
         expect(ActiveSupport::Inflector.underscore(camel)).to eq(underscore)
       end
     end
-  end
-
-  describe "camelize_with_module" do
     CamelWithModuleToUnderscoreWithSlash.each do |camel, underscore|
-      it "camelizes #{underscore} => #{camel}" do
-        expect(ActiveSupport::Inflector.camelize(underscore)).to eq(camel)
+      it "underscores #{camel} => #{underscore}" do
+        expect(ActiveSupport::Inflector.underscore(camel)).to eq(underscore)
       end
     end
   end
 
-  describe "underscore_with_slashes" do
-    CamelWithModuleToUnderscoreWithSlash.each do |camel, underscore|
-      it "underscores #{camel} => #{underscore}" do
-        expect(ActiveSupport::Inflector.underscore(camel)).to eq(underscore)
+
+  describe "camelize" do
+    UnderscoreToLowerCamel.each do |underscored, lower_camel|
+      it "underscore_to_lower_camel #{underscored.inspect} => #{lower_camel.inspect}" do
+        expect(ActiveSupport::Inflector.camelize(underscored, false)).to eq(lower_camel)
+      end
+    end
+    SymbolToLowerCamel.each do |symbol, lower_camel|
+      it "symbol_to_lower_camel #{symbol.inspect} => #{lower_camel.inspect}" do
+        expect(ActiveSupport::Inflector.camelize(symbol, false)).to eq(lower_camel)
+      end
+    end
+    context "camelize_with_module" do
+      CamelWithModuleToUnderscoreWithSlash.each do |camel, underscore|
+        it "camelizes #{underscore} => #{camel}" do
+          expect(ActiveSupport::Inflector.camelize(underscore)).to eq(camel)
+        end
       end
     end
   end
@@ -324,7 +314,7 @@ describe "Inflector" do
   end
 
   describe "#humanize" do
-    it "humanize" do
+    it "humanizes" do
       UnderscoreToHuman.each do |underscore, human|
         expect(ActiveSupport::Inflector.humanize(underscore)).to eq(human)
       end
@@ -384,19 +374,6 @@ describe "Inflector" do
         it "dasherizes and underscores back to original #{underscored}" do
           expect(ActiveSupport::Inflector.underscore(ActiveSupport::Inflector.dasherize(underscored))).to eq(underscored)
         end
-      end
-    end
-  end
-
-  describe "camelize" do
-    UnderscoreToLowerCamel.each do |underscored, lower_camel|
-      it "underscore_to_lower_camel #{underscored.inspect} => #{lower_camel.inspect}" do
-        expect(ActiveSupport::Inflector.camelize(underscored, false)).to eq(lower_camel)
-      end
-    end
-    SymbolToLowerCamel.each do |symbol, lower_camel|
-      it "symbol_to_lower_camel #{symbol.inspect} => #{lower_camel.inspect}" do
-        expect(ActiveSupport::Inflector.camelize(symbol, false)).to eq(lower_camel)
       end
     end
   end
@@ -482,9 +459,36 @@ describe "Inflector" do
         expect(inflect.acronyms.size).to     eq(0)
       end
     end
+    describe "clear and re-populate" do
+      
+      [ :all, [] ].each do |scope|
+        ActiveSupport::Inflector.inflections do |inflect|
+          it "test clear inflections with #{scope.kind_of?(Array) ? "no_arguments" : scope}"  do
+            # save all the inflections
+            singulars, plurals, uncountables = inflect.singulars, inflect.plurals, inflect.uncountables
+
+            # clear all the inflections
+            inflect.clear(*scope)
+
+            expect(inflect.singulars).to eq([])
+            expect(inflect.plurals).to eq([])
+            expect(inflect.uncountables).to eq([])
+
+            # restore all the inflections
+            singulars.reverse_each { |singular| inflect.singular(*singular) }
+            plurals.reverse_each   { |plural|   inflect.plural(*plural) }
+            inflect.uncountable(uncountables)
+
+            expect(inflect.singulars).to eq(singulars)
+            expect(inflect.plurals).to eq(plurals)
+            expect(inflect.uncountables).to eq(uncountables)
+          end
+        end
+      end
+    end
   end
 
-  describe 'irregularities' do
+  describe "irregularities" do
     Irregularities.each do |singular, plural|
       it "test irregularity between #{singular.inspect} => #{plural.inspect}" do
         ActiveSupport::Inflector.inflections do |inflect|
@@ -507,34 +511,6 @@ describe "Inflector" do
         ActiveSupport::Inflector.inflections do |inflect|
           inflect.irregular(singular, plural)
           expect(ActiveSupport::Inflector.singularize(singular)).to eq(singular)
-        end
-      end
-    end
-  end
-
-  describe 'clearing inflectors' do
-    
-    [ :all, [] ].each do |scope|
-      ActiveSupport::Inflector.inflections do |inflect|
-        it "test clear inflections with #{scope.kind_of?(Array) ? "no_arguments" : scope}"  do
-          # save all the inflections
-          singulars, plurals, uncountables = inflect.singulars, inflect.plurals, inflect.uncountables
-
-          # clear all the inflections
-          inflect.clear(*scope)
-
-          expect(inflect.singulars).to eq([])
-          expect(inflect.plurals).to eq([])
-          expect(inflect.uncountables).to eq([])
-
-          # restore all the inflections
-          singulars.reverse_each { |singular| inflect.singular(*singular) }
-          plurals.reverse_each   { |plural|   inflect.plural(*plural) }
-          inflect.uncountable(uncountables)
-
-          expect(inflect.singulars).to eq(singulars)
-          expect(inflect.plurals).to eq(plurals)
-          expect(inflect.uncountables).to eq(uncountables)
         end
       end
     end
