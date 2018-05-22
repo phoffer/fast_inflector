@@ -17,6 +17,7 @@
 
 /doc/
 ext/*/libs/
+ext/*/lib/
 /.crystal/
 ext/*/.shards/
 **/*.bundle
