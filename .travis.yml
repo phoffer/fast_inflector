@@ -1,15 +1,5 @@
+sudo: false
 language: ruby
 rvm:
-  - 2.2
-  - 2.3
-
-before_install:
-  - curl https://dist.crystal-lang.org/apt/setup.sh | sudo bash
-  - sudo apt-get -qq update
-  - sudo apt-get install -y crystal
-  - rvm get head
-  - gem install bundler
-
-before_script:
-  - cd ext/fast_inflector && make
-  - cp fast_inflector.bundle ../../lib/fast_inflector/fast_inflector.bundle
+  - 2.5.0
+before_install: gem install bundler -v 1.15.3

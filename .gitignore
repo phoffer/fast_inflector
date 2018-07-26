@@ -1,8 +1,6 @@
-
-# ruby
+## ruby
 
 /.bundle/
-.rspec
 /.yardoc
 /Gemfile.lock
 /_yardoc/
@@ -11,19 +9,18 @@
 /pkg/
 /spec/reports/
 /tmp/
+*.bundle
+*.bundle.*
+*.so
+*.o
+*.a
+mkmf.log
+.pry_history
+.ruby-version
 
+## crystal
+/ext/*/.shards
+/ext/*/lib
 
-# crystal
-
-/doc/
-ext/*/libs/
-ext/*/lib/
-/.crystal/
-ext/*/.shards/
-**/*.bundle
-
-
-# Libraries don't need dependency lock
-# Dependencies will be locked in application that uses them
-**/shard.lock
-
+# other
+.DS_Store

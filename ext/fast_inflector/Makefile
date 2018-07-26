@@ -19,9 +19,9 @@ shards:
 	crystal deps
 
 fast_inflector.so: fast_inflector.o
-	$(CC) -shared $^ -o $@ $(LIBCRYSTAL) -L$(LIBRARY_PATH) -L$(LIBRUBY) $(LIBS) $(LDFLAGS)
+	$(CC) --release -shared $^ -o $@ $(LIBCRYSTAL) -L$(LIBRARY_PATH) -L$(LIBRUBY) $(LIBS) $(LDFLAGS)
 
-fast_inflector.o: init.cr
+fast_inflector.o: fast_inflector.cr
 	crystal compile --cross-compile --target $(UNAME) $<
 
 .PHONY: clean
@@ -39,9 +39,16 @@ all: shards fast_inflector.bundle
 shards:
 	crystal deps
 
-fast_inflector.bundle: init.cr
-	crystal $^ --release --link-flags "$(CRYSTAL_FLAGS)" -o $@
+fast_inflector.bundle: fast_inflector.cr
+	crystal $^ --link-flags "$(CRYSTAL_FLAGS)" -o $@
 
 clean:
 	rm -f *.bundle
+
+deep_clean:
+	rm -f *.bundle
+	rm -f *.bundle.*
+	rm -rf lib
+	rm -rf .shards
+
 endif
