@@ -2,7 +2,21 @@
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fast_inflector`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-TODO: Delete this and the text above, and describe your gem
+## USAGE
+
+```bash
+bundle exec rake compile
+bin/console
+```
+
+Now to play around. Relevant code is in `ext/fast_inflector/fast_inflector.cr`
+```ruby
+Geode
+Geode::Inflector
+Geode::Inflector.titleize 'dog' # => Dog
+Geode::Inflector.tableize 'cat' # => cats
+Geode::Inflector.array [1, 2, 'three'] # => [1, 2, "three"] this just round trips the array to Crystal and back
+```
 
 ## Installation
 
@@ -32,7 +46,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/fast_inflector.
+Bug reports and pull requests are welcome on GitHub at https://github.com/phoffer/fast_inflector.
 
 ## License
 

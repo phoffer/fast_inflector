@@ -21,7 +21,7 @@ task :default => [:clobber, :compile, :test]
 desc "compile the Crystal native extensions"
 task :compile do
   puts "compiling native extensions"
-  `cd ext/fast_inflector && crystal deps && make clean && make`
+  `cd ext/fast_inflector && make clean && make`
 end
 
 desc "cleaning up compiled binaries"

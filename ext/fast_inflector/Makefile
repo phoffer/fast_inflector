@@ -16,7 +16,7 @@ install: all
 all: shards fast_inflector.so
 
 shards:
-	crystal deps
+	shards
 
 fast_inflector.so: fast_inflector.o
 	$(CC) --release -shared $^ -o $@ $(LIBCRYSTAL) -L$(LIBRARY_PATH) -L$(LIBRUBY) $(LIBS) $(LDFLAGS)
@@ -37,7 +37,7 @@ CRYSTAL_FLAGS = -dynamic -bundle -Wl,-undefined,dynamic_lookup
 all: shards fast_inflector.bundle
 
 shards:
-	crystal deps
+	shards
 
 fast_inflector.bundle: fast_inflector.cr
 	crystal $^ --link-flags "$(CRYSTAL_FLAGS)" -o $@
